@@ -1,0 +1,14 @@
+[tasks.build-rust]
+description = "Build the Rust project"
+command = "cargo"
+args = ["build"]
+
+[tasks.build-wasm]
+description = "Build the WebAssembly module"
+command = "wasm-pack"
+args = ["build", "--target", "web", "--out-dir", "www/src/pkg"]
+
+[tasks.build]
+description = "Build the project and the WebAssembly module"
+dependencies = ["build-rust", "build-wasm"]
+

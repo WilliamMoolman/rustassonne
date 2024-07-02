@@ -1,0 +1,147 @@
+.App {
+  padding: 0px;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.tile {
+       width: 78px;
+       height: 78px;
+}
+
+.empty-tile {
+       width: 78px;
+       height: 78px;
+}
+
+.clickable-tile {
+    padding-top: 3px;
+    padding-left: 3px;
+    border-radius: 3px;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: gray;
+       width: 73px;
+       height: 73px;
+       box-shadow: 2px 2px gray;
+
+}
+
+.clickable-tile:hover {
+    background: lightgreen;
+}
+
+.rotate90 {
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+.rotate180 {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+.rotate270 {
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+
+.Remaining {
+    outline-style: solid;
+   position:fixed;
+   left:0px;
+   bottom:0px;
+   height:100px;
+   width:100%;
+   background:#999;
+}
+.Remaining > h2{
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+.Remaining-bar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+.Remaining-cardtype {
+    display: flex;
+    flex-direction: column;
+}
+.Remaining-cardtype > p {
+    font-size: 20px;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+.Remaining-cardtype > img{
+    width: 40px;
+    height: 40px;
+}
+
+.Board {
+    display: flex;
+    flex-direction: row;
+}
+
+.Sidebar {
+    outline-style: solid;
+    /* display: flex; */
+    /* flex-direction: column; */
+    /* align-items: strech; */
+    height: calc(100vh - 100px);
+    padding: 10px;
+
+}
+
+.Canvas {
+    padding: 10px;
+    overflow: hidden;
+    height: calc(100vh - 100px);
+}
+.Canvas-grid {
+      display: grid;
+      grid-row-gap: 0px;
+}
+
