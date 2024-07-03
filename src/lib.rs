@@ -1,12 +1,12 @@
 #![allow(dead_code)]
 
+use rand::seq::SliceRandom;
+use rand::thread_rng;
 use std::{
     collections::VecDeque,
     fmt::{self, Debug, Formatter},
 };
 use wasm_bindgen::prelude::*;
-use rand::thread_rng;
-use rand::seq::SliceRandom;
 
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
@@ -253,24 +253,58 @@ impl Game {
 
         for r in 0..self.height() as usize {
             for c in 0..self.width() as usize {
-                if self.board[r][c].tile != Tile::EMPTY { continue; }
+                if self.board[r][c].tile != Tile::EMPTY {
+                    continue;
+                }
                 let mut clickable = false;
                 if r == 0 {
-                    if self.board[r+1][c].tile != Tile::CLICKABLE && self.board[r+1][c].tile != Tile::EMPTY { clickable = true; }
+                    if self.board[r + 1][c].tile != Tile::CLICKABLE
+                        && self.board[r + 1][c].tile != Tile::EMPTY
+                    {
+                        clickable = true;
+                    }
                 } else if r == self.height() as usize - 1 {
-                    if self.board[r-1][c].tile != Tile::CLICKABLE && self.board[r-1][c].tile != Tile::EMPTY { clickable = true; }
+                    if self.board[r - 1][c].tile != Tile::CLICKABLE
+                        && self.board[r - 1][c].tile != Tile::EMPTY
+                    {
+                        clickable = true;
+                    }
                 } else {
-                    if self.board[r+1][c].tile != Tile::CLICKABLE && self.board[r+1][c].tile != Tile::EMPTY { clickable = true; }
-                    if self.board[r-1][c].tile != Tile::CLICKABLE && self.board[r-1][c].tile != Tile::EMPTY { clickable = true; }
+                    if self.board[r + 1][c].tile != Tile::CLICKABLE
+                        && self.board[r + 1][c].tile != Tile::EMPTY
+                    {
+                        clickable = true;
+                    }
+                    if self.board[r - 1][c].tile != Tile::CLICKABLE
+                        && self.board[r - 1][c].tile != Tile::EMPTY
+                    {
+                        clickable = true;
+                    }
                 }
 
                 if c == 0 {
-                    if self.board[r][c+1].tile != Tile::CLICKABLE && self.board[r][c+1].tile != Tile::EMPTY { clickable = true; }
+                    if self.board[r][c + 1].tile != Tile::CLICKABLE
+                        && self.board[r][c + 1].tile != Tile::EMPTY
+                    {
+                        clickable = true;
+                    }
                 } else if c == self.width() as usize - 1 {
-                    if self.board[r][c-1].tile != Tile::CLICKABLE && self.board[r][c-1].tile != Tile::EMPTY { clickable = true; }
+                    if self.board[r][c - 1].tile != Tile::CLICKABLE
+                        && self.board[r][c - 1].tile != Tile::EMPTY
+                    {
+                        clickable = true;
+                    }
                 } else {
-                    if self.board[r][c+1].tile != Tile::CLICKABLE && self.board[r][c+1].tile != Tile::EMPTY { clickable = true; }
-                    if self.board[r][c-1].tile != Tile::CLICKABLE && self.board[r][c-1].tile != Tile::EMPTY { clickable = true; }
+                    if self.board[r][c + 1].tile != Tile::CLICKABLE
+                        && self.board[r][c + 1].tile != Tile::EMPTY
+                    {
+                        clickable = true;
+                    }
+                    if self.board[r][c - 1].tile != Tile::CLICKABLE
+                        && self.board[r][c - 1].tile != Tile::EMPTY
+                    {
+                        clickable = true;
+                    }
                 }
 
                 if clickable {
@@ -314,7 +348,6 @@ impl Game {
         }
         pieces.shuffle(&mut thread_rng());
 
-
         Game {
             tiles_remaining,
             pile: pieces,
@@ -350,7 +383,7 @@ impl Game {
     }
 
     pub fn next_tile(&self) -> u8 {
-        self.pile[self.pile.len()-1] as u8
+        self.pile[self.pile.len() - 1] as u8
     }
 
     pub fn tiles_rotation(&self) -> Vec<u8> {

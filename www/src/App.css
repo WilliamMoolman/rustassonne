@@ -1,42 +1,41 @@
 .App {
-  padding: 0px;
+    padding: 0px;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
-
 
 .tile {
     width: 74px;
@@ -48,12 +47,11 @@
     /* padding-right: 1px; */
     box-shadow: 2px 2px gray;
     border-radius: 3px;
-
 }
 
 .empty-tile {
-       width: 74px;
-       height: 74px;
+    width: 74px;
+    height: 74px;
 }
 
 .clickable-tile {
@@ -68,7 +66,6 @@
     width: 74px;
     height: 74px;
     box-shadow: 2px 2px gray;
-
 }
 
 .clickable-tile:hover {
@@ -111,14 +108,14 @@
 
 .Remaining {
     outline-style: solid;
-   position:fixed;
-   left:0px;
-   bottom:0px;
-   height:100px;
-   width:100%;
-   background:#999;
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    height: 100px;
+    width: 100%;
+    background: #999;
 }
-.Remaining > h2{
+.Remaining > h2 {
     margin-block-start: 0em;
     margin-block-end: 0em;
 }
@@ -150,7 +147,6 @@
     /* align-items: strech; */
     height: calc(100vh - 100px);
     padding: 10px;
-
 }
 
 .Canvas {
@@ -159,7 +155,6 @@
     height: calc(100vh - 100px);
 }
 .Canvas-grid {
-      display: grid;
-      grid-row-gap: 0px;
+    display: grid;
+    grid-row-gap: 0px;
 }
-
