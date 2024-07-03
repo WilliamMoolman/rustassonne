@@ -5,7 +5,7 @@ import init, { Game } from './pkg/rustassonne.js';
 function Canvas({ width, height, tiles, tilesRotation, handleTileClick }) {
     return (
         <div className="Canvas">
-            <div className="Canvas-grid" style={{ gridTemplateColumns: `repeat(${width}, 78px)` }}>
+            <div className="Canvas-grid" style={{ gridTemplateColumns: `repeat(${width}, 80px)` }}>
                 {tiles.map((tileId, i) => {
                     if (tileId === 255) {
                         return <div className="empty-tile" />
@@ -56,6 +56,7 @@ function Remaining({ remaining }) {
             {remaining.map((object, i) => <div className="Remaining-cardtype"><p> {object}x </p><img
                 src={`./img/tile-${String.fromCharCode(97 + i)}.png`}
                 alt={`tile-${String.fromCharCode(97 + i)}.png`}
+                className={"remaining-tile"}
             /></div>)}
         </div>
     </div>)

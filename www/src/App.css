@@ -39,30 +39,52 @@
 
 
 .tile {
-       width: 78px;
-       height: 78px;
+    width: 74px;
+    height: 74px;
+    /* padding: 3px; */
+    margin-top: 3px;
+    margin-left: 3px;
+    /* padding-bottom: 1px; */
+    /* padding-right: 1px; */
+    box-shadow: 2px 2px gray;
+    border-radius: 3px;
+
 }
 
 .empty-tile {
-       width: 78px;
-       height: 78px;
+       width: 74px;
+       height: 74px;
 }
 
 .clickable-tile {
-    padding-top: 3px;
-    padding-left: 3px;
+    /* padding: 3px; */
+    /* padding-top: 3px; */
+    /* padding-left: 3px; */
+    margin: 3px;
     border-radius: 3px;
     outline-style: solid;
     outline-width: 1px;
     outline-color: gray;
-       width: 73px;
-       height: 73px;
-       box-shadow: 2px 2px gray;
+    width: 74px;
+    height: 74px;
+    box-shadow: 2px 2px gray;
 
 }
 
 .clickable-tile:hover {
     background: lightgreen;
+}
+
+.nexttile {
+    border-radius: 3px;
+    box-shadow: 2px 2px gray;
+}
+
+.remaining-tile {
+    width: 40px;
+    height: 40px;
+    border-radius: 3px;
+    box-shadow: 2px 2px gray;
 }
 
 .rotate90 {
@@ -114,10 +136,6 @@
     font-size: 20px;
     margin-block-start: 0em;
     margin-block-end: 0em;
-}
-.Remaining-cardtype > img{
-    width: 40px;
-    height: 40px;
 }
 
 .Board {
