@@ -1,6 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import "./App.css";
 import init, { Game } from "./pkg/rustassonne.js";
+
+function getTilename(tileId) {
+  return `tile-${String.fromCharCode(97 + tileId)}.png`;
+}
 
 function Canvas({ width, height, tiles, tilesRotation, handleTileClick }) {
   return (
@@ -23,8 +27,8 @@ function Canvas({ width, height, tiles, tilesRotation, handleTileClick }) {
           }
           return (
             <img
-              src={`./img/tile-${String.fromCharCode(97 + tileId)}.png`}
-              alt={`tile-${String.fromCharCode(97 + tileId)}.png`}
+              src={`./img/${getTilename(tileId)}`}
+              alt={getTilename(tileId)}
               className={`rotate${90 * tilesRotation[i]} tile`}
             />
           );
@@ -88,73 +92,102 @@ function Remaining({ remaining }) {
   );
 }
 
-function App() {
+const useGame = () => {
   const gameRef = useRef(null);
-  const [initialized, setInitialized] = useState(false);
   const [remaining, setRemaining] = useState([]);
   const [boardWidth, setBoardWidth] = useState(0);
-  const [boardHeight, setBoardHeight] = useState(0);
+  const [boardHeight, setBoardHeight] = useState(0); // Placeholder for height state
   const [boardTiles, setBoardTiles] = useState([]);
   const [nextTile, setNextTile] = useState(0);
   const [boardTilesRotation, setBoardTilesRotation] = useState([]);
   const [tilePlaced, setTilePlaced] = useState(false);
   const [tilePlacement, setTilePlacement] = useState([]);
 
-  useEffect(() => {
-    async function refresh() {
+  const initializeGame = useCallback(async () => {
+    await init().then(() => {
+      gameRef.current = Game.standard();
+      console.log("Game initialized:", gameRef.current);
+    });
+  }, []);
+
+  const refresh = useCallback(() => {
+    if (gameRef.current) {
       const remaining_tiles = Array.from(gameRef.current.get_remaining());
-      setRemaining(remaining_tiles);
       const width = gameRef.current.width();
-      setBoardWidth(width);
       const tiles = Array.from(gameRef.current.tiles());
-      setBoardTiles(tiles);
       const tilesRotation = Array.from(gameRef.current.tiles_rotation());
-      setBoardTilesRotation(tilesRotation);
       const gameNextTile = gameRef.current.next_tile();
-      setNextTile(gameNextTile);
-      console.log("Refreshed!", gameNextTile);
+
+      setRemaining((prev) =>
+        JSON.stringify(prev) !== JSON.stringify(remaining_tiles)
+          ? remaining_tiles
+          : prev,
+      );
+      setBoardWidth((prev) => (prev !== width ? width : prev));
+      setBoardTiles((prev) =>
+        JSON.stringify(prev) !== JSON.stringify(tiles) ? tiles : prev,
+      );
+      setBoardTilesRotation((prev) =>
+        JSON.stringify(prev) !== JSON.stringify(tilesRotation)
+          ? tilesRotation
+          : prev,
+      );
+      setNextTile((prev) => (prev !== gameNextTile ? gameNextTile : prev));
+
+      console.log("Refreshed!");
+      console.log("Next Tile", getTilename(gameNextTile));
     }
-    if (initialized) {
+  }, []);
+
+  const placeTile = useCallback(() => {
+    if (tilePlaced && gameRef.current) {
+      const [positionId, rotation] = tilePlacement;
+      gameRef.current.place_next(positionId, rotation);
+      console.log("Placed Tile");
+      setTilePlaced(false);
       refresh();
     }
-    if (tilePlaced) {
-      const positionId = tilePlacement[0];
-      const rotation = tilePlacement[1];
-      gameRef.current.place_next(positionId, rotation);
-      setTilePlaced(false);
-    }
-  }, [initialized, tilePlaced, tilePlacement]);
+  }, [tilePlaced, tilePlacement, refresh]);
+
+  useEffect(() => {
+    const initializeAndRefresh = async () => {
+      await initializeGame();
+      refresh();
+    };
+    initializeAndRefresh();
+  }, [initializeGame, refresh]);
+
+  useEffect(() => {
+    placeTile();
+  }, [tilePlaced, placeTile]);
+
+  return {
+    remaining,
+    boardWidth,
+    boardHeight,
+    boardTiles,
+    nextTile,
+    boardTilesRotation,
+    setTilePlacement,
+    setTilePlaced,
+  };
+};
+
+const App = () => {
+  const {
+    remaining,
+    boardWidth,
+    boardHeight,
+    boardTiles,
+    nextTile,
+    boardTilesRotation,
+    setTilePlacement,
+    setTilePlaced,
+  } = useGame();
 
   function handleClick(positionId, rotation) {
     setTilePlacement([positionId, rotation]);
     setTilePlaced(true);
-  }
-
-  useEffect(() => {
-    const initializeGame = async () => {
-      await init().then(() => {
-        // Initialize the wasm module
-        gameRef.current = Game.standard(); // Create and store the Game object
-        console.log("Game initialized:", gameRef.current);
-        // const remaining_tiles = Array.from(gameRef.current.get_remaining());
-        // setRemaining(remaining_tiles);
-        // const width = gameRef.current.width();
-        // setBoardWidth(width);
-        // const tiles = Array.from(gameRef.current.tiles());
-        // setBoardTiles(tiles);
-        // const tilesRotation = Array.from(gameRef.current.tiles_rotation());
-        // setBoardTilesRotation(tilesRotation);
-        // setNextTile(gameRef.current.next_tile());
-        // refresh();
-      });
-      setInitialized(true);
-    };
-
-    initializeGame();
-  }, []);
-
-  if (!initialized || remaining.length === 0) {
-    return <div>Loading...</div>; // Show loading state while initializing
   }
 
   return (
@@ -169,6 +202,6 @@ function App() {
       <Remaining remaining={remaining} />
     </div>
   );
-}
+};
 
 export default App;
